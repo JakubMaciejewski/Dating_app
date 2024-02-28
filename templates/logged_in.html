@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %} start{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <p> logged in</p>
+    <p> {{user.email }}</p>
+    <p> {{user.nick}}</p>
+
+    {% for invitation in invitations%}
+    <div class="row align-items-start">
+    <div class="col">
+        {% if invitation.sender.id in photos %}
+      <img src= "{{url_for('static', filename=photos[invitation.sender.id].path)}}"  class="d-block w-100" alt="...">
+        {% else %}
+       <img src= "{{url_for('static', filename='/base/empty_pic2.jpg')}}"  class="d-block w-100" alt="...">
+        {% endif %}
+    </div>
+     <div class="col">
+        {{invitation.sender.nick}}
+    </div>
+     {% if invitation.sender.age is none %}
+
+     <div class="col">
+        age notfullfield
+    </div>
+     {% else %}
+     <div class="col">
+         {{invitation.sender.age}}
+     </div>
+     {% endif %}
+    <div class="col">
+        <form method="post">
+        <input type="hidden" name="profile_to_view" value="{{invitation.sender.id}}">
+        <button type="submit" class="btn btn-primary mb-3"   > view profile  </button>
+    </form>
+    </div>
+
+        <div class="col">
+        <form method="post">
+            <input type="hidden" name="accept" value="{{invitation.id}}">
+        <button type="submit" class="btn btn-primary mb-3" >accept  </button>
+        </form>
+     </div>
+        <div class="col">
+        <form method="post">
+            <input type="hidden" name="reject" value="{{invitation.id}}">
+        <button type="submit" class="btn btn-primary mb-3" >reject  </button>
+        </form>
+     </div>
+</div>
+    {% endfor %}
+
+    pairs
+
+       {% for paired_user in paired_users%}
+    <div class="row align-items-start">
+    <div class="col">
+        {% if user.id in photos %}
+      <img src= "{{url_for('static', filename=paired_user_photos[paired_user.id].path)}}"  class="d-block w-100" alt="...">
+        {% else %}
+       <img src= "{{url_for('static', filename='/base/empty_pic2.jpg')}}"  class="d-block w-100" alt="...">
+        {% endif %}
+    </div>
+     <div class="col">
+        {{paired_user.nick}}
+    </div>
+    <div class="col">
+        <form method="post">
+        <input type="hidden" name="profile_to_view" value="{{paired_user.id}}">
+        <button type="submit" class="btn btn-primary mb-3"   > view profile  </button>
+    </form>
+    </div>
+
+        <div class="col">
+        <form method="post">
+            <input type="hidden" name="accept" value="{{paired_user.id}}">
+        <button type="submit" class="btn btn-primary mb-3" >accept  </button>
+        </form>
+     </div>
+    </div>
+        {% endfor %}
+</div>
+
+
+{% endblock %}

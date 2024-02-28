@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block title %} view settings{% endblock %}
+{% block content %}
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+        <div class="container-fluid">
+
+             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+
+                <div class="carousel-inner">
+
+                    {% for photo in photos %}
+
+                    <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
+                      <img src= "{{url_for('static', filename=photo.path)}}"  class="d-block w-100" alt="...">
+                    </div>
+                    {% endfor %}
+
+                    {% if photos|length == 0 %}
+
+                        <div class="carousel-item active">
+                            <img src= "{{url_for('static', filename='/base/empty_pic2.jpg')}}"  class="d-block w-100" alt="...">
+                        </div>
+                    {% endif %}
+
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                </div>
+            </div>
+
+
+            <h3> User account info:</h3>
+            <div class="d-flex justify-content-center">
+                <div class="container-fluid">
+                    <p> EMAIL:</p>
+                </div>
+                <div class="container-fluid">
+                    <p> {{user.email }}</p>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div class="container-fluid">
+                    <p>USER NAME: </p>
+                </div>
+                <div class="container-fluid">
+                    <p> {{user.nick}}</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-sm">
+        <div class="container-fluid">
+          <h3> Personal information:</h3>
+
+            <div class="d-flex justify-content-center">
+                <div class="container-fluid">
+                    <p> GENDER:</p>
+                </div>
+                <div class="container-fluid">
+                    {% if user.gender is none%}
+                        <p> gender info not filled</p>
+                    {% else %}
+                        <p> {{user.gender.name}}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <div class="container-fluid">
+                    <p> SEXUALITY:</p>
+                </div>
+                <div class="container-fluid">
+                    {% if user.sexuality_id is none%}
+                        <p> sexuality info not filled</p>
+                    {% else %}
+                        <p> {{user.sexuality.name}}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+
+            <div class="d-flex justify-content-center">
+                <div class="container-fluid">
+                    <p> AGE:</p>
+                </div>
+                <div class="container-fluid">
+                    {% if user.age is none%}
+                        <p> age info not filled</p>
+                    {% else %}
+                        <p> {{user.age}}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center">
+                <div class="container-fluid">
+                    <p> Description:</p>
+                </div>
+                <div class="container-fluid">
+                    {% if user.account_desc is none%}
+                        <p> description not filled</p>
+                    {% else %}
+                        <p> {{user.account_desc}}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="text-right">
+                            <p>Want to edit your account? Click here:</p>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <a href = '/settings/edit'>
+                            <div class="text-right" >
+                                <button type="submit" class="btn btn-primary mb-3" > EDIT </button>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

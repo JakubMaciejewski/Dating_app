@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+{% block title %} edit settings{% endblock %}
+{% block content %}
+
+
+<div class="container">
+  <div class="row">
+
+    <div class="col-sm">
+        <div class="container-fluid">
+         <!--   <img src= "{{url_for('static', filename='/base/empty_pic.jpg')}}"   class="img-thumbnail" >   -->
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+
+                <div class="carousel-inner">
+
+                    {% for photo in photos %}
+
+                    <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
+                      <img src= "{{url_for('static', filename=photo.path)}}"  class="d-block w-100" alt="...">
+                    </div>
+                    {% endfor %}
+
+                    {% if photos|length == 0 %}
+
+                        <div class="carousel-item active">
+                            <img src= "{{url_for('static', filename='/base/empty_pic2.jpg')}}"  class="d-block w-100" alt="...">
+                        </div>
+                    {% endif %}
+
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                </div>
+            </div>
+
+            <form method="post" enctype="multipart/form-data">
+                <label class="form-label" for="customFile">  Add new photo</label>
+                <input type="file" name = "uploaded_photo" class="form-control" id="customFile" />
+                <input type = "submit" value="Upload">
+            </form>
+
+
+
+            <h3> User account info:</h3>
+            <div class="d-flex justify-content-center">
+                <div class="container-fluid">
+                    <p> EMAIL:</p>
+                </div>
+                <div class="container-fluid">
+                    <p> {{user.email }}</p>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <div class="container-fluid">
+                    <p>USER NAME: </p>
+                </div>
+                <div class="container-fluid">
+                    <p> {{user.nick}}</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-sm">
+        <form method="post">
+            <div class="container-fluid">
+              <h3> Personal information:</h3>
+                <div class="d-flex justify-content-center">
+                    <div class="container-fluid">
+                        <p> GENDER:</p>
+                    </div>
+                    <div class="container-fluid">
+                        {% if user.gender is none%}
+                            <p> gender info not filled</p>
+                        {% else %}
+                            <p> {{user.gender.name}}</p>
+                        {% endif %}
+                    </div>
+
+                <div>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGender" aria-expanded="false" aria-controls="collapseExample">
+                      Edit
+                  </button>
+                  </div>
+                </div>
+
+                <div class="collapse" id="collapseGender">
+                   <select class="form-select" aria-label="Default select example" name ="gender_select">
+                        <option selected>select your gender</option>
+                       {% for gender in genders %}
+                        <option value={{gender.id}}>{{gender.name}}</option>
+                       {% endfor %}
+                   </select>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <div class="container-fluid">
+                        <p> SEXUALITY:</p>
+                    </div>
+                    <div class="container-fluid">
+                        {% if user.sexuality_id is none%}
+                            <p> sexuality info not filled</p>
+                        {% else %}
+                            <p> {{user.sexuality.name}}</p>
+                        {% endif %}
+                    </div>
+                  <div>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSex" aria-expanded="false" aria-controls="collapseExample">
+                        Edit
+                    </button>
+                  </div>
+                </div>
+
+                <div class="collapse" id="collapseSex">
+                    <select class="form-select" aria-label="Default select example" name ="sex_select" >
+                        <option value = "default"> select your sexuality</option>
+                       {% for sex in sexualities %}
+                        <option value={{sex.id}}>{{sex.name}}</option>
+                       {% endfor %}
+                   </select>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <div class="container-fluid">
+                        <p> AGE:</p>
+                    </div>
+                    <div class="container-fluid">
+                        {% if user.age is none%}
+                            <p> age info not filled</p>
+                        {% else %}
+                            <p> {{user.age}}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAge" aria-expanded="false" aria-controls="collapseExample">
+                          Edit
+                        </button>
+                    </div>
+                </div>
+
+                <div class="collapse" id="collapseAge">
+                    <div class="container-fluid">
+                        <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Select your Age: </label>
+                          <select class="custom-select custom-select-lg mr-sm-2" id="inlineFormCustomSelectPref" name ="age_select">
+                              <option selected>..Age..</option>
+                              {% for n in range(100) %}
+                                <option value={{n}}>{{n}}</option>
+                              {% endfor %}
+                          </select>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <div class="container-fluid">
+                        <p> Description:</p>
+                    </div>
+                    <div class="container-fluid">
+                        {% if user.account_desc is none%}
+                            <p> description not filled</p>
+                        {% else %}
+                            <p> {{user.account_desc}}</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="text-right">
+                                <p>Want to submit changes? Click here:</p>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                                <div class="text-right"  >
+                                    <button type="submit" class="btn btn-primary mb-3" > submit </button>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+        </form>
+    </div>
+    </div>
+  </div>
+</div>
+
+
+  <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    Button with data-bs-target
+  </button>
+
+<div class="collapse" id="collapseExample">
+  <div class="card card-body">
+    Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+  </div>
+</div>
+
+{% endblock %}
